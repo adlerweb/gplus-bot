@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project version="2.0.0a8" title="">
+  <file path="gplus.php" hash="c979128062f2ff3a729c8b1ee1d130af" package="gplus-bot">
+    <docblock line="3">
+      <description><![CDATA[Google+ (plus.google.com) PHP Curl bot]]></description>
+      <long-description><![CDATA[]]></long-description>
+      <tag line="3" name="since" description="Sep 29 2011"/>
+      <tag line="3" name="version" description="05.08.2012"/>
+      <tag line="3" name="link" description="http://360percents.com/" link="http://360percents.com/"/>
+      <tag line="3" name="author" description="Luka Pušić &lt;luka@pusic.si&gt;"/>
+      <tag line="3" name="author" description="Florian Knodt &lt;adlerweb@adlerweb.info&gt;"/>
+    </docblock>
+    <class final="false" abstract="false" namespace="global" line="16" package="gplus-bot">
+      <extends/>
+      <name>gplusBot</name>
+      <full_name>\gplusBot</full_name>
+      <docblock line="12">
+        <description><![CDATA[Google+ (plus.google.com) PHP Curl bot library]]></description>
+        <long-description><![CDATA[]]></long-description>
+        <tag line="12" name="package" description="gplus-bot"/>
+      </docblock>
+      <property final="false" static="false" visibility="private" line="21" namespace="global" package="gplus-bot">
+        <name>$cookies</name>
+        <default><![CDATA[]]></default>
+        <docblock line="17">
+          <description><![CDATA[File to store cookies during transaction]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="17" name="var" description="" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="private" line="27" namespace="global" package="gplus-bot">
+        <name>$sleep</name>
+        <default><![CDATA[]]></default>
+        <docblock line="23">
+          <description><![CDATA[Number of seconds to wait between requests]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="23" name="var" description="" type="int">
+            <type by_reference="false">int</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="private" line="33" namespace="global" package="gplus-bot">
+        <name>$uagent</name>
+        <default><![CDATA[]]></default>
+        <docblock line="29">
+          <description><![CDATA[User Agent sent to google]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="29" name="var" description="" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="private" line="41" namespace="global" package="gplus-bot">
+        <name>$debug</name>
+        <default><![CDATA[]]></default>
+        <docblock line="35">
+          <description><![CDATA[Debug-Mode]]></description>
+          <long-description><![CDATA[<p>false = off, 1 = basic, 2 = full debug</p>]]></long-description>
+          <tag line="35" name="var" description="" type="bool|int">
+            <type by_reference="false">bool</type>
+            <type by_reference="false">int</type>
+          </tag>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="53" package="gplus-bot">
+        <name>__construct</name>
+        <full_name>__construct</full_name>
+        <docblock line="43">
+          <description><![CDATA[Constructor - connect to G+ and log in]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="43" name="param" description="E-Mail adress" type="string" variable="$user">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="43" name="param" description="Password" type="string" variable="$pass">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="43" name="param" description="Filename for temporary cookie storage" type="string" variable="$cookies">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="43" name="param" description="Number of seconds to wait between requests, false = random" type="bool|int" variable="$sleep">
+            <type by_reference="false">bool</type>
+            <type by_reference="false">int</type>
+          </tag>
+          <tag line="43" name="param" description="User agent sent to google" type="bool|string" variable="$uagent">
+            <type by_reference="false">bool</type>
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="43" name="param" description="Debug-Mode: false = off, 1 = basic, 2 = full debug" type="bool|int" variable="$debug">
+            <type by_reference="false">bool</type>
+            <type by_reference="false">int</type>
+          </tag>
+        </docblock>
+        <argument line="53">
+          <name>$user</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="53">
+          <name>$pass</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="53">
+          <name>$cookies</name>
+          <default><![CDATA['cookie.txt']]></default>
+          <type/>
+        </argument>
+        <argument line="53">
+          <name>$sleep</name>
+          <default><![CDATA[false]]></default>
+          <type/>
+        </argument>
+        <argument line="53">
+          <name>$uagent</name>
+          <default><![CDATA[false]]></default>
+          <type/>
+        </argument>
+        <argument line="53">
+          <name>$debug</name>
+          <default><![CDATA[2]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="72" package="gplus-bot">
+        <name>__destruct</name>
+        <full_name>__destruct</full_name>
+        <docblock line="69">
+          <description><![CDATA[Destructor - logout and clean up]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="83" package="gplus-bot">
+        <name>login_data</name>
+        <full_name>login_data</full_name>
+        <docblock line="77">
+          <description><![CDATA[Login_data - Collect login informatioin]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="77" name="param" description="E-Mail" type="string" variable="$user">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="77" name="param" description="Password" type="string" variable="$pass">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="77" name="return" description="Data needed to log in" type="array">
+            <type by_reference="false">array</type>
+          </tag>
+        </docblock>
+        <argument line="83">
+          <name>$user</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="83">
+          <name>$pass</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="128" package="gplus-bot">
+        <name>login</name>
+        <full_name>login</full_name>
+        <docblock line="123">
+          <description><![CDATA[Send login information to google]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="123" name="param" description="Login information generated by login_data()" type="array" variable="$postdata">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag line="123" name="see" description="\global\login_data" refers="\global\login_data"/>
+        </docblock>
+        <argument line="128">
+          <name>$postdata</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="150" package="gplus-bot">
+        <name>update_profile_status</name>
+        <full_name>update_profile_status</full_name>
+        <docblock line="146">
+          <description><![CDATA[Post something to our profile]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="146" name="param" description="Message to post" type="string" variable="$status">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+        <argument line="150">
+          <name>$status</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="200" package="gplus-bot">
+        <name>update_page_status</name>
+        <full_name>update_page_status</full_name>
+        <docblock line="197">
+          <description><![CDATA[Post something to a definded page - not implemented yes]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="218" package="gplus-bot">
+        <name>logout</name>
+        <full_name>logout</full_name>
+        <docblock line="215">
+          <description><![CDATA[Terminate current session]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="238" package="gplus-bot">
+        <name>debug</name>
+        <full_name>debug</full_name>
+        <docblock line="233">
+          <description><![CDATA[Debug handler]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="233" name="param" description="Debug-Message" type="string" variable="$message">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="233" name="param" description="Minimal level for this message" type="int" variable="$level">
+            <type by_reference="false">int</type>
+          </tag>
+        </docblock>
+        <argument line="238">
+          <name>$message</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="238">
+          <name>$level</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+    </class>
+  </file>
+  <package name="gplus-bot" full_name="gplus-bot"/>
+  <namespace name="global" full_name="global"/>
+  <marker count="0">todo</marker>
+  <marker count="0">fixme</marker>
+  <deprecated count="0"/>
+</project>
