@@ -167,7 +167,7 @@ class gplusBot{
         $this->debug($buf, 2);
         $inputs = $doc->getElementsByTagName('input');
         foreach ($inputs as $input) {
-            if (($input->getAttribute('name') != 'editcircles')) {
+            if (($input->getAttribute('name') != 'editcircles') && ($input->getAttribute('name') != 'editattachedphotos')) {
                 $params[] = $input->getAttribute('name') . '=' . urlencode($input->getAttribute('value'));
             }
         }
