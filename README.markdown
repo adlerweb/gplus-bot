@@ -1,22 +1,26 @@
-# Google Plus status update bot
+# Google Plus status update library
 
-* Readme date: Mar 2 2012
-* Contributors: lukapusic
-* Author: Luka Pusic <luka@pusic.si>
-* URI: http://360percents.com/posts/first-google-google-plus-status-update-bot-in-php/
+* Readme date: Aug 6 2012
+* Contributors: lukapusic, adlerweb
+* Author: Luka Pusic <luka@pusic.si>, Florian Knodt <adlerweb@adlerweb.info>
+* URI: https://github.com/adlerweb/gplus-bot
+*      https://github.com/lukapusic/gplus-bot
+*      http://360percents.com/posts/first-google-google-plus-status-update-bot-in-php/
 
 ## Description
-This bot can log into your Google account and update your Google Plus status,
-but you can extend it to other Google products. All this is done without Google API,
-OAuth, tokens or any other annoying products.
-
+This library allows you to post status updates to your Google+-Account. It uses username and password by emulating a browser, no API/OAuth required. Based on Luka Pusics GPlus-Bot.
 
 ## System requirements
 * PHP curl extension
 
 ## Instructions
-1. Open gplus.php and edit email and password
-2. run it ```php gplus.php```
+1. include library file into your script 
+2. Start new instance: $gp = new gplusBot('yourmail@gmail.com', 'yourpassword');
+3. Post message: $gp->update_profile_status($p);
+
+##Notes
+This is mainly designed for CLI/single user - if you want to use concurrent connections
+please read (and understand!) this script first
 
 ## Changelog
 
@@ -33,6 +37,9 @@ OAuth, tokens or any other annoying products.
 #### Mar 2 2012
 * fixed "&" encoding (thx Pauly)
 
+#### Auf 6 2012
+* Changed plain PHP-script to library
+
 ## Known issues
 * fails if you didn't confirm mobile location terms and conditions
 * fails if you have mobile verification enabled
@@ -40,6 +47,8 @@ OAuth, tokens or any other annoying products.
 ## TODO
 * add an option to change post visility
 * add posting to pages
+* add image upload
+* add URL upload
 
 ## License
  ----------------------------------------------------------------------------
