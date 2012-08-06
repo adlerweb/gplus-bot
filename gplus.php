@@ -8,24 +8,35 @@
  * @author Luka Pušić <luka@pusic.si>
  * @author Florian Knodt <adlerweb@adlerweb.info>
  */
+
+/**
+ * Google+ (plus.google.com) PHP Curl bot library
+ * @package gplus-bot
+ */
 class gplusBot{
     /**
-     * @var string File to store cookies during transaction
+     * File to store cookies during transaction
+     * @var string
      */
     private $cookies;
     
     /**
-     * @var int Number of seconds to wait between requests
+     * Number of seconds to wait between requests
+     * @var int
      */
     private $sleep;
     
     /**
-     * @var string User Agent sent to google
+     * User Agent sent to google
+     * @var string
      */
     private $uagent;
     
     /**
-     * @var bool|int false = off, 1 = basic, 2 = full debug
+     * Debug-Mode
+     * 
+     * false = off, 1 = basic, 2 = full debug
+     * @var bool|int
      */
     private $debug;
     
