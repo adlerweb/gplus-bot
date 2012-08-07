@@ -160,7 +160,7 @@ class gplusBot{
         $this->debug($buf, 2);
         $inputs = $doc->getElementsByTagName('input');
         foreach ($inputs as $input) {
-            if (!in_array(array('editcircles', 'editattachedphotos'), $input->getAttribute('name'))) {
+            if (!in_array(array('editcircles', 'editattachedphotos', 'showattachedphoto', 'editattachedphotos'), $input->getAttribute('name'))) {
                 $params[$input->getAttribute('name')] = $input->getAttribute('value');
             }
         }
