@@ -58,8 +58,9 @@
 <li class="method public "><a href="#login" title="login :: Send login information to google"><span class="description">Send login information to google</span><pre>login()</pre></a></li>
 <li class="method public "><a href="#login_data" title="login_data :: Login_data - Collect login informatioin"><span class="description">Login_data - Collect login informatioin</span><pre>login_data()</pre></a></li>
 <li class="method public "><a href="#logout" title="logout :: Terminate current session"><span class="description">Terminate current session</span><pre>logout()</pre></a></li>
-<li class="method public "><a href="#update_page_status" title="update_page_status :: Post something to a definded page - not implemented yes"><span class="description">Post something to a definded page - not implemented yes</span><pre>update_page_status()</pre></a></li>
+<li class="method public "><a href="#update_page_status" title="update_page_status :: Post something to a definded page - not implemented yet"><span class="description">Post something to a definded page - not implemented yet</span><pre>update_page_status()</pre></a></li>
 <li class="method public "><a href="#update_profile_status" title="update_profile_status :: Post something to our profile"><span class="description">Post something to our profile</span><pre>update_profile_status()</pre></a></li>
+<li class="method public "><a href="#update_profile_status_image" title="update_profile_status_image :: Post message with an attached image"><span class="description">Post message with an attached image</span><pre>update_profile_status_image()</pre></a></li>
 <li class="nav-header">
 <i class="icon-custom icon-property"></i> Properties</li>
 <li class="nav-header private">» Private</li>
@@ -184,7 +185,7 @@
 <div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
 </div>
 <a name="update_page_status" id="update_page_status"></a><div class="element clickable method public update_page_status" data-toggle="collapse" data-target=".update_page_status .collapse">
-<h2>Post something to a definded page - not implemented yes</h2>
+<h2>Post something to a definded page - not implemented yet</h2>
 <pre>update_page_status() </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
@@ -199,6 +200,22 @@
 <div class="subelement argument">
 <h4>$status</h4>
 <code>string</code><p>Message to post</p></div>
+</div></div>
+</div>
+<a name="update_profile_status_image" id="update_profile_status_image"></a><div class="element clickable method public update_profile_status_image" data-toggle="collapse" data-target=".update_profile_status_image .collapse">
+<h2>Post message with an attached image</h2>
+<pre>update_profile_status_image(string $status, \sting $imgfile) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$status</h4>
+<code>string</code><p>Message to post</p></div>
+<div class="subelement argument">
+<h4>$imgfile</h4>
+<code>\sting</code><p>Path to a image-file stored on the server</p>
+</div>
 </div></div>
 </div>
 <h3>
@@ -234,7 +251,7 @@
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a8</a> and<br>
-            generated on 2012-08-06T22:00:33+02:00.<br></footer></div>
+            generated on 2012-08-07T23:25:36+02:00.<br></footer></div>
 </div>
 </body>
 </html>
