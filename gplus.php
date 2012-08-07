@@ -104,10 +104,10 @@ class gplusBot{
         $doc->loadhtml($buf);
         $inputs = $doc->getElementsByTagName('input');
         foreach ($inputs as $input) {
-            $toreturn[$input->getAttribute('name')] = urlencode($input->getAttribute('value'));
+            $toreturn[$input->getAttribute('name')] = $input->getAttribute('value');
         }
-        $toreturn['Email']  = urlencode($user);
-        $toreturn['Passwd'] = urlencode($pass);
+        $toreturn['Email']  = $user;
+        $toreturn['Passwd'] = $pass;
         
         sleep($this->sleep);
         return array($toreturn, $doc->getElementsByTagName('form')->item(0)->getAttribute('action'));
@@ -161,10 +161,10 @@ class gplusBot{
         $inputs = $doc->getElementsByTagName('input');
         foreach ($inputs as $input) {
             if (($input->getAttribute('name') != 'editcircles') && ($input->getAttribute('name') != 'editattachedphotos')) {
-                $params[$input->getAttribute('name')] = urlencode($input->getAttribute('value'));
+                $params[$input->getAttribute('name')] = $input->getAttribute('value');
             }
         }
-        $params['newcontent'] = urlencode($status);
+        $params['newcontent'] = $status;
         $baseurl = 'https://m.google.com' . parse_url($header['url'], PHP_URL_PATH);
     
         $ch = curl_init();
