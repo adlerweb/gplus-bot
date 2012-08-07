@@ -85,10 +85,12 @@ class gplusBot{
         curl_setopt($ch, CURLOPT_COOKIEJAR, $this->cookies);
         curl_setopt($ch, CURLOPT_COOKIEFILE, $this->cookies);
         curl_setopt($ch, CURLOPT_USERAGENT, $this->uagent);
-        curl_setopt($ch, CURLOPT_URL, "https://plus.google.com/");
+        curl_setopt($ch, CURLOPT_URL, 'https://plus.google.com/');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-    
+        
+        $this->debug('URL: https://plus.google.com/', 2);
+        
         $buf = utf8_decode(html_entity_decode(curl_exec($ch)));
         sleep($this->sleep);
         $buf = str_replace( '&amp;', '&', $buf ); // just in case any correctly encoded
@@ -128,6 +130,8 @@ class gplusBot{
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata[0]);
+        $this->debug('URL: '.$postdata[1], 2);
+        $this->debug('DATA: '.print_r($postdata[0], true), 2);
         $buf = curl_exec($ch); #this is not the g+ home page, because the b**** doesn't redirect properly
         sleep($this->sleep);
         curl_close($ch);
@@ -148,6 +152,7 @@ class gplusBot{
         curl_setopt($ch, CURLOPT_URL, 'https://m.google.com/app/plus/?v=compose&group=m1c&hideloc=1');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        $this->debug('URL: '.'https://m.google.com/app/plus/?v=compose&group=m1c&hideloc=1', 2);
         $buf = utf8_decode(html_entity_decode(str_replace('&', '', curl_exec($ch))));
         sleep($this->sleep);
         $header = curl_getinfo($ch);
@@ -160,7 +165,7 @@ class gplusBot{
         $this->debug($buf, 2);
         $inputs = $doc->getElementsByTagName('input');
         foreach ($inputs as $input) {
-            if (!in_array($input->getAttribute('name'), array('editcircles', 'editattachedphotos', 'showattachedphoto', 'editattachedphotos'))) {
+            if (!in_array($input->getAttribute('name'), array('editcircles', 'editattachedphotos', 'showattachedphoto'))) {
                 $params[$input->getAttribute('name')] = $input->getAttribute('value');
             }
         }
@@ -178,6 +183,8 @@ class gplusBot{
         curl_setopt($ch, CURLOPT_REFERER, $baseurl . '?v=compose&group=m1c&group=b0&hideloc=1');
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+        $this->debug('URL: '.$baseurl . '?v=compose&group=m1c&group=b0&hideloc=1&a=post', 2);
+        $this->debug('DATA: '.print_r($params, true), 2);
         $buf = curl_exec($ch);
         sleep($this->sleep);
         $header = curl_getinfo($ch);
@@ -185,6 +192,125 @@ class gplusBot{
         $this->debug($buf, 2);
     
         $this->debug('[+] POST Updating status on: '.$baseurl, 1);
+    }
+
+    /**
+     * Post message with an attached image
+     *
+     * @param string Message to post
+     * @param sting Path to a image-file stored on the server
+     */
+    function update_profile_status_image($status, $imgfile) {
+        //Get main form
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_COOKIEJAR, $this->cookies);
+        curl_setopt($ch, CURLOPT_COOKIEFILE, $this->cookies);
+        curl_setopt($ch, CURLOPT_USERAGENT, $this->uagent);
+        curl_setopt($ch, CURLOPT_URL, 'https://m.google.com/app/plus/?v=compose&group=m1c&hideloc=1');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        $this->debug('URL: '.'https://m.google.com/app/plus/?v=compose&group=m1c&hideloc=1', 2);
+        $buf = utf8_decode(curl_exec($ch));
+        sleep($this->sleep);
+        $header = curl_getinfo($ch);
+        curl_close($ch);
+        
+        //Get image-form
+        $params = array();
+        $doc = new DOMDocument;
+        $doc->loadhtml($buf);
+        $this->debug($buf, 2);
+        $inputs = $doc->getElementsByTagName('input');
+        foreach ($inputs as $input) {
+            if (!in_array($input->getAttribute('name'), array('editcircles', 'post'))) {
+                $params[$input->getAttribute('name')] = $input->getAttribute('value');
+            }
+        }
+        $action = parse_url($header['url'], PHP_URL_PATH) . html_entity_decode($doc->getElementsByTagName('form')->item(0)->getAttribute('action'));;
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_COOKIEJAR, $this->cookies);
+        curl_setopt($ch, CURLOPT_COOKIEFILE, $this->cookies);
+        curl_setopt($ch, CURLOPT_USERAGENT, $this->uagent);
+        //delete group=b0& in the line below, to post just to your circles, not to public
+        curl_setopt($ch, CURLOPT_URL, 'https://m.google.com' . $action);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($ch, CURLOPT_REFERER, 'https://m.google.com/app/plus/?v=compose&group=m1c&hideloc=1');
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+        $this->debug('URL: '.'https://m.google.com' . $action, 2);
+        $this->debug('DATA: '.print_r($params, true), 2);
+        $buf = utf8_decode(curl_exec($ch));
+        sleep($this->sleep);
+        $header = curl_getinfo($ch);
+        curl_close($ch);
+        
+        //Upload image
+        $params = array();
+        $doc = new DOMDocument;
+        $doc->loadhtml($buf);
+        $this->debug($buf, 2);
+        $inputs = $doc->getElementsByTagName('input');
+        foreach ($inputs as $input) {
+            if (!in_array($input->getAttribute('name'), array('Photo'))) {
+                $params[$input->getAttribute('name')] = $input->getAttribute('value');
+            }
+        }
+        $params['Photo'] = '@'.$imgfile;
+        $lastaction=$action;
+        $action = html_entity_decode($doc->getElementsByTagName('form')->item(0)->getAttribute('action'));
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_COOKIEJAR, $this->cookies);
+        curl_setopt($ch, CURLOPT_COOKIEFILE, $this->cookies);
+        curl_setopt($ch, CURLOPT_USERAGENT, $this->uagent);
+        //delete group=b0& in the line below, to post just to your circles, not to public
+        curl_setopt($ch, CURLOPT_URL, 'https://m.google.com' . $action);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($ch, CURLOPT_REFERER, 'https://m.google.com' . $lastaction);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+        $this->debug('URL: '.'https://m.google.com' . $action, 2);
+        $this->debug('DATA: '.print_r($params, true), 2);
+        $buf = utf8_decode(curl_exec($ch));
+        sleep($this->sleep);
+        $header = curl_getinfo($ch);
+        curl_close($ch);
+        
+        //Post status
+        $params = array();
+        $doc = new DOMDocument;
+        $doc->loadhtml($buf);
+        $this->debug($buf, 2);
+        $inputs = $doc->getElementsByTagName('input');
+        foreach ($inputs as $input) {
+            if (!in_array($input->getAttribute('name'), array('editcircles', 'editattachedphotos', 'showattachedphoto'))) {
+                $params[$input->getAttribute('name')] = $input->getAttribute('value');
+            }
+        }
+        $params['newcontent'] = $status;
+        $lastaction=$action;
+        $action = parse_url($header['url'], PHP_URL_PATH) . html_entity_decode($doc->getElementsByTagName('form')->item(0)->getAttribute('action'));;
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_COOKIEJAR, $this->cookies);
+        curl_setopt($ch, CURLOPT_COOKIEFILE, $this->cookies);
+        curl_setopt($ch, CURLOPT_USERAGENT, $this->uagent);
+        //delete group=b0& in the line below, to post just to your circles, not to public
+        curl_setopt($ch, CURLOPT_URL, 'https://m.google.com' . $action);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($ch, CURLOPT_REFERER, 'https://m.google.com' . $lastaction);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+        $this->debug('URL: '.'https://m.google.com' . $action, 2);
+        $this->debug('DATA: '.print_r($params, true), 2);
+        $buf = utf8_decode(curl_exec($ch));
+        sleep($this->sleep);
+        $header = curl_getinfo($ch);
+        curl_close($ch);
+        $this->debug($buf, 2);
+        
+        $this->debug('[+] POST Updating status with image', 1);
     }
     
     /**
