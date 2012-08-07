@@ -188,7 +188,7 @@ class gplusBot{
     }
     
     /**
-     * Post something to a definded page - not implemented yes
+     * Post something to a definded page - not implemented yet
      */
     function update_page_status() {
         return false; //Not implemented yet
