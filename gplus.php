@@ -160,11 +160,11 @@ class gplusBot{
         $this->debug($buf, 2);
         $inputs = $doc->getElementsByTagName('input');
         foreach ($inputs as $input) {
-            if (($input->getAttribute('name') != 'editcircles') && ($input->getAttribute('name') != 'editattachedphotos') && ($input->getAttribute('name') != 'newcontent')) {
-                $params[] = $input->getAttribute('name') . '=' . urlencode($input->getAttribute('value'));
+            if (($input->getAttribute('name') != 'editcircles') && ($input->getAttribute('name') != 'editattachedphotos')) {
+                $params[$input->getAttribute('name')] = urlencode($input->getAttribute('value'));
             }
         }
-        $params[] = 'newcontent=' . urlencode($status);
+        $params['newcontent'] = urlencode($status);
         $baseurl = 'https://m.google.com' . parse_url($header['url'], PHP_URL_PATH);
     
         $ch = curl_init();
@@ -177,7 +177,7 @@ class gplusBot{
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
         curl_setopt($ch, CURLOPT_REFERER, $baseurl . '?v=compose&group=m1c&group=b0&hideloc=1');
         curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, implode('&', $params));
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
         $buf = curl_exec($ch);
         sleep($this->sleep);
         $header = curl_getinfo($ch);
