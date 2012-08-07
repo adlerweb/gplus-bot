@@ -104,20 +104,13 @@ class gplusBot{
         $doc->loadhtml($buf);
         $inputs = $doc->getElementsByTagName('input');
         foreach ($inputs as $input) {
-            switch ($input->getAttribute('name')) {
-                case 'Email':
-                    $toreturn[] = 'Email='.urlencode($user);
-                    break;
-                case 'Passwd':
-                    $toreturn[] = 'Passwd=' . urlencode($pass);
-                    break;
-                default:
-                    $toreturn[] = $input->getAttribute('name').'='.urlencode($input->getAttribute('value'));
-            }
+            $toreturn[$input->getAttribute('name')] = urlencode($input->getAttribute('value'));
         }
+        $toreturn['Email']  = urlencode($user);
+        $toreturn['Passwd'] = urlencode($pass);
         
         sleep($this->sleep);
-        return array(implode('&', $toreturn), $doc->getElementsByTagName('form')->item(0)->getAttribute('action'));
+        return array($toreturn, $doc->getElementsByTagName('form')->item(0)->getAttribute('action'));
     }
     
     /**
