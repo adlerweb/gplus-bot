@@ -85,11 +85,11 @@ class gplusBot{
         curl_setopt($ch, CURLOPT_COOKIEJAR, $this->cookies);
         curl_setopt($ch, CURLOPT_COOKIEFILE, $this->cookies);
         curl_setopt($ch, CURLOPT_USERAGENT, $this->uagent);
-        curl_setopt($ch, CURLOPT_URL, 'https://plus.google.com/');
+        curl_setopt($ch, CURLOPT_URL, 'https://plus.google.com/app/basic/login');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
         
-        $this->debug('URL: https://plus.google.com/', 2);
+        $this->debug('URL: https://plus.google.com/app/basic/login', 2);
         
         $buf = utf8_decode(html_entity_decode(curl_exec($ch)));
         sleep($this->sleep);
@@ -97,7 +97,7 @@ class gplusBot{
         $buf = str_replace( '&', '&amp;', $buf ); // now encode them all again
         curl_close($ch);
     
-        $this->debug('[+] Sending GET request to: https://plus.google.com/', 1);
+        $this->debug('[+] Sending GET request to: https://plus.google.com/app/basic/login', 1);
         $this->debug($buf, 2);
     
         $toreturn = array();
